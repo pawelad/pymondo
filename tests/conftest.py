@@ -65,10 +65,15 @@ def pots_api_response():
     return {
         'pots': [
             {
-                'id': 'acc_00009237aqC8c5umZmrRdh',
-                'name': "Peter Pan's pot",
-                'created': '2015-11-13T12:17:42Z',
-            },
+                "id": "pot_REDACTED",
+                "name": "REDACTED",
+                "style": "blue_shards",
+                "balance": 12345,
+                "currency": "GBP",
+                "created": "2017-12-09T09:57:39.353Z",
+                "updated": "2018-01-25T11:11:41.12Z",
+                "deleted": False
+            }
         ],
     }
 
@@ -155,4 +160,24 @@ def transaction_api_response():
             'is_load': False,
             'settled': '2015-08-23T12:20:18Z',
         },
+    }
+
+
+@pytest.fixture(scope='session')
+def pot_api_response():
+    """
+    Helper fixture that returns an example Monzo API 'pot' response
+
+    Source:
+        https://monzo.com/docs/#pots
+    """
+    return {
+        "id": "pot_00009RNZhecjs9zeLKbdcv",
+        "name": "Stuff",
+        "style": "blue_shards",
+        "balance": 12345,
+        "currency": "GBP",
+        "created": "2017-12-09T09:57:39.353Z",
+        "updated": "2018-01-25T11:11:41.12Z",
+        "deleted": False
     }
