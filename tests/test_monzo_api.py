@@ -21,6 +21,7 @@ class TestMonzoAPI:
     """
     Test `monzo_api.MonzoAPI` class.
     """
+
     @pytest.fixture(scope='session')
     def monzo(self):
         """Helper fixture that returns a `MonzoAPI` instance"""
@@ -491,3 +492,37 @@ class TestMonzoAPI:
         expected_result = MonzoTransaction(transaction_api_response['transaction'])
 
         assert result == expected_result
+
+    def test_class_create_feed_item_method(self, mocker, mocked_monzo, accounts_api_response):
+        """Test class `create_feed_item` method"""
+        mocked_get_response = mocker.patch(
+            'pymonzo.monzo_api.MonzoAPI._get_response',
+        )
+        mocked_get_response.return_value.json.return_value = None
+
+        title = "title"
+        image_url = "https://example.com/image_url"
+        body = "body"
+        background_color = "background_color"
+        title_color = "title_color"
+        body_color = "body_color"
+        url = "https://example.com/url"
+
+        mocked_monzo.create_feed_item(accounts_api_response['accounts'][0]['id'], title, image_url,
+                                      body, background_color, title_color, body_color, url)
+
+        mocked_get_response.assert_called_once_with(
+            method='post',
+            endpoint='/feed',
+            body={
+                'account_id': accounts_api_response['accounts'][0]['id'],
+                'type': 'basic',
+                'params[title]': title,
+                'params[image_url]': image_url,
+                'url': url,
+                'params[body]': body,
+                'params[background_color]': background_color,
+                'params[title_color]': title_color,
+                'params[body_color]': body_color,
+            },
+        )
