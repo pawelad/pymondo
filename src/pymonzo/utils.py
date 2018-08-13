@@ -11,6 +11,7 @@ class CommonMixin(object):
     """
     Common class mixin that implements sensible defaults
     """
+
     def __eq__(self, other):
         return (
             isinstance(other, self.__class__)
@@ -27,5 +28,16 @@ class CommonMixin(object):
         ])
         return '{}({})'.format(self.__class__.__name__, data)
 
+    """
+    Added .__name__ to def __repr__()
+    :param self: By convention.
+    :return: Class Object.
+    :Example:
+
+    [MonzoTransaction({data here})]
+    Alters return of MonzoTransaction from <class 'pymonzo.api_objects.MonzoTransaction'> to
+    [MonzoTransaction({data here})] showing the object name correctly.
+    """
+
     def __repr__(self):
-        return '{}({})'.format(self.__class__, self.__dict__)
+        return '{}({})'.format(self.__class__.__name__, self.__dict__)
